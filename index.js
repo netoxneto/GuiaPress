@@ -2,8 +2,12 @@ const express = require('express');
 const app = express();
 const bodypaser = require('body-parser');
 const database = require("./database/database");
+
 const categoriesController = require('./categories/CategoriesController');
 const articlesController = require('./articles/ArticlesController');
+
+const categoryTable = require('./categories/Category');
+const articleTable = require('./articles/Article');
 
 database.authenticate().then(()=>{
     console.log("Database successfully connected!");
