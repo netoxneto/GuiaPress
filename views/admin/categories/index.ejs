@@ -1,0 +1,50 @@
+<%- include ('../../partials/header');%>
+<body>
+    <%- include ('../../partials/navbar');%>
+
+    <div class="container">
+        <hr>
+        <h2>Categorias</h2>
+        <a href="/admin/categories/new" class="btn btn-success">Criar nova categoria</a>
+        <hr>    
+
+        <table class="table">          
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titulo</th>
+                    <th>Slug</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% category.forEach((category)=>{%>
+                <tr>
+                    <th><%= category.id%></th>
+                    <th><%= category.title%></th>
+                    <th><%= category.slug%></th>
+                    <th>
+                        <a class="btn btn-primary btn-sm" href="/admin/categories/edit/<%= category.id%>">Editar</a>
+                        
+                        <form action="/admin/categories/delete" method="POST" style="display: inline;" onsubmit="confirmaExclusao(event, this)">
+                            <input type="hidden" name="id" value="<%= category.id%>">
+                            <button class="btn btn-danger btn-sm">Deletar</button>
+                        </form>
+                    </th>
+                </tr>
+                <%});%>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+<%- include ('../../partials/footer');%>
+<script>
+    function confirmaExclusao(event, form){
+        event.preventDefault();
+        var decision = confirm("Deseja excluir essa categoria?");
+        if(decision){
+            form.submit();
+        }
+    }
+</script>
