@@ -1,0 +1,51 @@
+<%- include ('../../partials/header');%>
+<body>
+    <%- include ('../../partials/navbar');%>
+
+    <div class="container">
+        <hr>
+        <h2>Artigos</h2>
+        <a href="/admin/articles/new" class="btn btn-success">Criar novo artigo</a>
+        <hr>    
+
+        <table class="table">          
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titulo</th>
+                    <th>Slug</th>
+                    <th>Categoria</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% articles.forEach((articles)=>{%>
+                <tr>
+                    <td><%=articles.id%></td>
+                    <td><%=articles.title%></th>
+                    <td><%=articles.slug%></td>
+                    <td><%=articles.category.title%></td>
+                    <td>
+                        <!-- <a class="btn btn-primary btn-sm" href="/admin/article/edit/<%=articles.id%>">Editar</a> -->
+                        <form action="/article/delete" method="post" style="display: inline;" onsubmit="confirmaExclusao(event, this)">
+                            <input type="hidden" name="id" value="<%=articles.id%>">
+                            <button class="btn btn-danger btn-sm">Deletar</button>
+                        </form>
+                    </td>
+                </tr>
+                <%});%>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+<%- include ('../../partials/footer');%>
+<script>
+    function confirmaExclusao(event, form){
+        event.preventDefault();
+        var decision = confirm("Deseja excluir esse artigo?");
+        if(decision){
+            form.submit();
+        }
+    }
+</script>
