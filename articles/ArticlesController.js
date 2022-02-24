@@ -6,7 +6,8 @@ const slug = require('slugify');
 
 router.get("/admin/articles", (req,res)=>{
     Articles.findAll({
-        include: [{model: categories}]
+        include: [{model: categories}],
+        order:[['id','DESC']]
     }).then((articles)=>{
         res.render('admin/articles/index',{
             articles: articles
