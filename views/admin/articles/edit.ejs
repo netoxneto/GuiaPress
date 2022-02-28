@@ -1,0 +1,50 @@
+<%- include ('../../partials/header'); %>
+
+
+<%- include ('../../partials/navbar')%>
+
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="card-header">
+            <h2>Edição de    artigo</h2>
+        </div>
+        <div class="card-body">
+            <form action="/article/save" method="POST">
+                <input class="form-control" type="text" name="title" placeholder="Defina o titulo do artigo" value="<%=article.title%>"><br>
+                <textarea class="form-control" placeholder="Escreva o artigo aqui" name="body" id="barticle"></textarea><br>
+                <label>Categoria:</label>
+                <select name="category" class="form-control">
+                    <%categories.forEach((category)=>{%>
+                        <option value="<%=category.id%>"><%=category.title%></option>
+                    <%});%>
+                </select><br>
+                <div class="col-lg-12" style="text-align: right;">
+                    <button class="btn btn-success">cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="test">
+    <%-article.body%>
+</div>
+
+
+
+<%- include ('../../partials/footer'); %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        language: 'pt_BR',
+        selector: "#barticle",
+        activeEditor: true,
+        plugins: [
+            'advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons'
+        ],
+        init_instance_callback: function(){
+            tinymce.get("barticle").setContent($("#test").html());
+        }
+    })
+</script>

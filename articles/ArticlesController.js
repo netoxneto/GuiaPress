@@ -3,6 +3,7 @@ const router = express.Router();
 const categories = require('../categories/Category');
 const Articles = require('./Article');
 const slug = require('slugify');
+const article = require('./Article');
 
 router.get("/admin/articles", (req,res)=>{
     Articles.findAll({
@@ -59,5 +60,21 @@ router.post("/article/delete", (req,res)=>{
         res.redirect('/admin/articles');
     }
 });
+
+router.get("/admin/article/edit/:id",(req,res)=>{
+    var id = req.params.id
+
+    if(isNaN(id)){
+        res.redirect('/admin/articles');
+    }
+
+    Articles.findOne({where:{id:id}}).then((article)=>{    
+        categories.findAll().then((categories)=>{
+            res.render('admin/articles/edit',{categories:categories,article:article});
+        });
+    });
+});
+
+
 
 module.exports = router;
