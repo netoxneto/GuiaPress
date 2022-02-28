@@ -19,6 +19,5 @@ const article = connection.define('articles',{
 category.hasMany(article);
 article.belongsTo(category);
 
-article.sync({force: false}).then(()=>{});
-
+article.sync({force: false});
 module.exports = article;

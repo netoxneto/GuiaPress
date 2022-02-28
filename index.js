@@ -24,7 +24,7 @@ app.use(bodypaser.json());
 app.use("/", categoriesController, articlesController);
 
 app.get("/",(req,res)=>{
-    articleTable.findAll({order:[['updatedAt','DESC']]}).then((articles)=>{
+    articleTable.findAll({order:[['updatedAt','DESC']], limit: 4}).then((articles)=>{
         categoryTable.findAll().then((categories)=>{
             res.render("index",{articles:articles, categories:categories});
         });
