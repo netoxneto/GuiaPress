@@ -1,14 +1,16 @@
 const express = require('express');
 const app = express();
 const bodypaser = require('body-parser');
+const session = require('express-session');
 const database = require("./database/database");
 
 const categoriesController = require('./categories/CategoriesController');
 const articlesController = require('./articles/ArticlesController');
+const usersControlller = require('./users/UsersController');
 
 const categoryTable = require('./categories/Category');
 const articleTable = require('./articles/Article');
-const res = require('express/lib/response');
+
 
 database.authenticate().then(()=>{
     console.log("Database successfully connected!");
@@ -21,7 +23,11 @@ app.use(express.static('public'));
 app.use(bodypaser.urlencoded({extended: false}));
 app.use(bodypaser.json());
 
-app.use("/", categoriesController, articlesController);
+app.use(session({
+    secret: "numQueiraSaber", cookie: {maxAge:43200000}
+}));
+
+app.use("/", categoriesController, articlesController, usersControlller);
 
 app.get("/",(req,res)=>{
     articleTable.findAll({order:[['updatedAt','DESC']], limit: 4}).then((articles)=>{

@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const category = require('./Category');
 const slugify = require('slugify');
+const adminAuth = require('../middleware/adminAuth');
 
 router.get("/admin/categories/new", (req,res)=>{
     res.render('admin/categories/new');
 });
 
-router.post("/categories/save", (req,res)=>{
+router.post("/categories/save", adminAuth,(req,res)=>{
     var data = req.body.title
 
     if(data != undefined){
@@ -23,7 +24,7 @@ router.post("/categories/save", (req,res)=>{
 
 });
 
-router.get("/admin/categories",(req,res)=>{
+router.get("/admin/categories", adminAuth,(req,res)=>{
     category.findAll({row: true}).then((categories)=>{
         res.render('admin/categories/index',{
             category: categories
@@ -31,7 +32,7 @@ router.get("/admin/categories",(req,res)=>{
     });
 });
 
-router.post("/admin/categories/delete",(req,res)=>{
+router.post("/admin/categories/delete", adminAuth,(req,res)=>{
     var id = req.body.id
 
     if(id != undefined){
@@ -49,7 +50,7 @@ router.post("/admin/categories/delete",(req,res)=>{
     }
 });
 
-router.get("/admin/categories/edit/:id", (req,res)=>{
+router.get("/admin/categories/edit/:id", adminAuth, (req,res)=>{
     var id = req.params.id
 
     if(isNaN(id)){
@@ -67,7 +68,7 @@ router.get("/admin/categories/edit/:id", (req,res)=>{
     });
 });
 
-router.post("/admin/categories/update", (req,res)=>{
+router.post("/admin/categories/update", adminAuth, (req,res)=>{
     var data = req.body.upTitle
     var id = req.body.id
     
